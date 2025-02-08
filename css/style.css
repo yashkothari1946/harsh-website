@@ -277,7 +277,7 @@ input:focus,textarea:focus{outline: 0 none; border: 1px solid var(--main-color);
 .tabs li a.about::before {content: " \f102";}
 .tabs li a.resume::before {content: " \f10d";}
 .tabs li a.portfolio::before {content: " \f109"}
-.tabs li a.blog::before {content: " \f112";}
+.tabs li a.blog::before {content: " \f126";}
 .tabs li a.contact::before {content: " \f105"}
 .tabs li a span {
 	color: var(--primary-color);
