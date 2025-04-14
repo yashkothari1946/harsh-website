@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Personal Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .toggle-switch {
+            display: inline-flex;
+            align-items: center;
+            margin: 20px;
+        }
+        .toggle-switch input {
+            display: none;
+        }
+        .toggle-switch label {
+            display: block;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-switch label::after {
+            content: '';
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+        .toggle-switch input:checked + label {
+            background: #28a745;
+        }
+        .toggle-switch input:checked + label::after {
+            left: 32px;
+        }
+        .status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        button.logout {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button.logout:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel - Toggle Personal Details</h2>
+        <div class="toggle-switch">
+            <input type="checkbox" id="toggleSwitch">
+            <label for="toggleSwitch"></label>
+        </div>
+        <div class="status" id="statusText">Status: OFF</div>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const statusText = document.getElementById('statusText');
+
+        // Fetch initial state
+        async function fetchToggleState() {
+            const response = await fetch('toogle.php');
+            const data = await response.json();
+
+            toggleSwitch.checked = data.status === 'ON';
+            statusText.innerText = `Status: ${data.status}`;
+        }
+
+        // Toggle State
+        toggleSwitch.addEventListener('change', async () => {
+            const newState = toggleSwitch.checked ? 'ON' : 'OFF';
+
+            const response = await fetch('toogle.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newState })
+            });
+
+            const data = await response.json();
+            statusText.innerText = `Status: ${data.status}`;
+        });
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+        }
+
+        fetchToggleState();
+    </script>
+</body>
+</html>

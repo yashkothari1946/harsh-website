@@ -237,11 +237,11 @@
                 </a>
               </li>
 
-              <!-- <li class="tmenu" style="display: none;" id="personaldtl">
-                            <a href="#personalinfo" class="blog">
-                                <span>Personal Info</span>
-                            </a>
-                        </li> -->
+              <li class="tmenu" style="display: none" id="personaldtl">
+                <a href="#personalinfo" class="blog">
+                  <span>Personal Info</span>
+                </a>
+              </li>
             </ul>
           </nav>
           <!-- /menu -->
@@ -3188,7 +3188,7 @@
 
           <!-- personalinfo-page 
                 ================================================== -->
-          <div id="personalinfo" class="page-margin-top d-none">
+          <div id="personalinfo" class="page-margin-top">
             <div class="container p-0">
               <div
                 class="content-wrapper-padding white-bg border-radius12 position-relative"
@@ -3336,6 +3336,22 @@
     <!-- /body-wrapper -->
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+          try {
+              const response = await fetch('toogle.php');
+              const data = await response.json();
+              if (data.status === 'ON') {
+                  $('#personaldtl').show();
+              } else {
+                  $('#personaldtl').hide();
+              }
+          } catch (error) {
+              console.error('Error fetching toggle status:', error);
+          }
+      });
+  </script>
 
     <script>
       function sendToWhatspp() {
